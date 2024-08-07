@@ -58,7 +58,7 @@ if [[ -z $ROM_ZIP ]] || [[ ! -f $ROM_ZIP ]]; then
 fi
 
 # Create needed directories
-for dir in ./modules/dlkm ./modules/ramdisk ./images ./images/dtbs; do
+for dir in ./vendor_dlkm ./vendor_ramdisk ./Image ./dtbs; do
     rm -rf $dir
     mkdir -p $dir
 done
@@ -101,7 +101,7 @@ cpio -i -F $out/vendor_ramdisk -D $out/ramdisk
 echo "Copying all ramdisk modules"
 for module in $(find $out/ramdisk -name "*.ko" -o -name "modules.load*" -o -name "modules.blocklist"); do
 	echo "Copying $(basename $module)"
-	cp $module ./modules/ramdisk/
+	cp $module ./vendor_ramdisk/
 done
 
 # VENDOR_DLKM
@@ -116,7 +116,7 @@ echo "Done. Extracting the vendor dlkm"
 echo "Copying all dlkm modules"
 for module in $(find $out/lib -name "*.ko" -o -name "modules.load*" -o -name "modules.blocklist"); do
 	echo "Copying $(basename $module)"
-	cp $module ./modules/dlkm/
+	cp $module ./vendor_dlkm/
 done
 
 # Extract DTBO and DTBs
